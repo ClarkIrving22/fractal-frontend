@@ -1,6 +1,7 @@
 import './styles.css'
 import UsersData from "../../data/users.json"
 import { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 
@@ -16,8 +17,10 @@ const ViewMyOrders = () => {
         getOrders()
     }, [])
 
+    const navigate = useNavigate();
+
     const handleClickButtonNewOrder = () => {
-        alert('Nueva tarea')
+        navigate('/add-order');
     }
 
     return(

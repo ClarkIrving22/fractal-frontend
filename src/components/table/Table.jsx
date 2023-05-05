@@ -13,8 +13,15 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
 export default function StickyHeadTable ({
-    data, columnheaders,
+    data, columnheaders, keysToDelete = [],
 }){
+    const deleteKeys = (row = {}) => {
+        keysToDelete.map((keyToDelete) => {
+            delete row[keyToDelete];
+        })
+        return row
+    }
+
     const renderColumnHeaders = (headers = []) => {
         return (
             <>
@@ -33,7 +40,7 @@ export default function StickyHeadTable ({
             <>
                 {keys.map((key) => {
                     return(
-                        <TableCell key={rowData[key]}>{rowData[key]}</TableCell>
+                        <TableCell>{rowData[key]}</TableCell>
                     )
                 })}
                 <TableCell>
@@ -52,9 +59,10 @@ export default function StickyHeadTable ({
         return(
             <>
                 {rowsData.map((rowData) => {
+                    deleteKeys(rowData)
                     return(
                         <TableRow key={rowData.id}>
-                            {renderRow(rowData)}
+                            {renderRow((rowData))}
                         </TableRow>
                     )
                 })}
