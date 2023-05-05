@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 
-const ViewMyOrders = () => {
+const ViewAddOrder = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
@@ -21,16 +21,16 @@ const ViewMyOrders = () => {
     }
 
     return(
-        <div className="ViewMyOrders-Container">
-            <div className="ViewMyOrders-title">My Orders</div>
-            <div className="ViewMyOrders-table-contenedor">
+        <div className="ViewAddOrders-Container">
+            <div className="title">Add Order</div>
+            <div className="table-contenedor">
                 <StickyHeadTable data={orders} columnheaders={['ID', 'Order #', 'Date', '# Products', 'Final Price', 'Options']}/>
             </div>
-            <div className="ViewMyOrders-button-neworder">
+            <div className="button-neworder">
                 <BasicButtons text={'New order'} handleClick={handleClickButtonNewOrder}/>
             </div>            
         </div>
     )
 }
 
-export default ViewMyOrders
+export default ViewAddOrder

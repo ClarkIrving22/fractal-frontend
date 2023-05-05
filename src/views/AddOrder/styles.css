@@ -1,4 +1,4 @@
-.ViewMyOrders-Container {
+.ViewAddOrders-Container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -8,18 +8,18 @@
     align-items: center;
 }
 
-.ViewMyOrders-title {
+.title {
     font-size: 1.50rem;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.ViewMyOrders-table-contenedor {
+.table-contenedor {
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-.ViewMyOrders-button-neworder {
+.button-neworder {
     margin-top: 10px;
 }
