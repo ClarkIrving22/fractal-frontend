@@ -7,6 +7,7 @@ import BasicButtons from '../../components/button/Button'
 
 const ViewMyOrders = () => {
     const [orders, setOrders] = useState([]);
+    const [selectedItem, setSelectedItem] = useState({});
 
     useEffect(() => {
         const getOrders = async() => {
@@ -23,13 +24,15 @@ const ViewMyOrders = () => {
         navigate('/add-order');
     }
 
-    
+    const handleEditButton = (item) => {
+        navigate(`/add-order/${item.id}`);
+    }
 
     return(
         <div className="ViewMyOrders-Container">
             <div className="ViewMyOrders-title">My Orders</div>
             <div className="ViewMyOrders-table-contenedor">
-                <StickyHeadTable handlebuttonedit = {''} data={orders} columnheaders={['ID', 'Order #', 'Date', '# Products', 'Final Price', 'Options']}/>
+                <StickyHeadTable handleEditButton={handleEditButton} data={orders} columnheaders={['ID', 'Order #', 'Date', '# Products', 'Final Price', 'Options']}/>
             </div>
             <div className="ViewMyOrders-button-neworder">
                 <BasicButtons text={'New order'} handleClick={handleClickButtonNewOrder}/>

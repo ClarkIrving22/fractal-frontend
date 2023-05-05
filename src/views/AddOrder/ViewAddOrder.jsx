@@ -6,11 +6,12 @@ import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 import TextField from '../../components/textfield/TextField'
 
+const getValueFromEvent = event => event.target.value
+
 const ViewAddOrder = ({
-    
 }) => {
-    const { id } = useParams();
     const [orderDetails, setOrdersDetails] = useState([])
+    const [{id}, setId] = useState(useParams())
 
     useEffect(() => {
         const getOrders = async() => {
@@ -36,11 +37,15 @@ const ViewAddOrder = ({
         alert('New Product')
     }
 
+    const handleInputOrderNumber = (event) => {
+        setId(getValueFromEvent(event))
+    }
+
     return(
         <div className="ViewAddOrders-Container">
             <div className="ViewAddOrders-title">{id != null ? 'Edit Order' : 'Add Order'}</div>
             <div className="ViewAddOrders-div-textfields1">
-                <TextField label={"Order Number"} width={'20ch'} textInput={id}/>
+                <TextField label={"Order Number"} width={'20ch'} textInput={id} InputHandleOnChange={id == null ? handleInputOrderNumber : null} isDisabled={id != null}/>
                 <TextField label={"Date"} width={'15ch'} textInput={getDate()}/>
             </div>
             

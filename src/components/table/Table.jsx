@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
 export default function StickyHeadTable ({
-    data, columnheaders, keysToDelete = [],
+    data, columnheaders, keysToDelete = [], handleEditButton,
 }){
     const deleteKeys = (row = {}) => {
         keysToDelete.map((keyToDelete) => {
@@ -34,6 +34,10 @@ export default function StickyHeadTable ({
         )
     }
 
+    const handleRowClick = (event, item) => {
+        handleEditButton(item);
+    };
+
     const renderRow = (rowData = {}) => {
         const keys = Object.keys(rowData)
         return(
@@ -44,24 +48,25 @@ export default function StickyHeadTable ({
                     )
                 })}
                 <TableCell>
-                    <IconButton className="IconButton">
+                    <IconButton className="IconButton" onClick={(event) => handleRowClick(event, rowData)}>
                         <EditIcon className="Icon" sx={{color: "#FB8C00"}}/>
                     </IconButton>
-                    <IconButton className="IconButton">
+                    <IconButton className="IconButton" onClick={null}>
                         <DeleteIcon className="Icon" sx={{color: "#FF5722"}}/>
                     </IconButton>
                 </TableCell>                
             </>
         )
-    }
+    }   
     
+
     const renderRows = (rowsData) => {
         return(
             <>
                 {rowsData.map((rowData) => {
                     deleteKeys(rowData)
                     return(
-                        <TableRow key={rowData.id}>
+                        <TableRow key={rowData.id} >
                             {renderRow((rowData))}
                         </TableRow>
                     )

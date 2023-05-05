@@ -3,10 +3,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 export default function BasicTextFields({
-    label ='',
-    textInput = '',
+    label,
+    textInput,
     InputHandleOnChange,
-    width
+    width,
+    isDisabled,
 }) {
   return (
     <Box
@@ -19,6 +20,7 @@ export default function BasicTextFields({
     >
 
         <TextField
+            disabled={isDisabled}
             label={label}
             id="outlined-size-small"
             size="small"
