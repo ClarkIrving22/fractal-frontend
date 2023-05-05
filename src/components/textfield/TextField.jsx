@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 export default function BasicTextFields({
-    label,
+    label ='',
     textInput = '',
     InputHandleOnChange,
     width
@@ -21,7 +21,6 @@ export default function BasicTextFields({
         <TextField
             label={label}
             id="outlined-size-small"
-            defaultValue=""
             size="small"
             value={textInput}
             onChange={InputHandleOnChange}

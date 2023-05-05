@@ -23,11 +23,13 @@ const ViewMyOrders = () => {
         navigate('/add-order');
     }
 
+    
+
     return(
         <div className="ViewMyOrders-Container">
             <div className="ViewMyOrders-title">My Orders</div>
             <div className="ViewMyOrders-table-contenedor">
-                <StickyHeadTable data={orders} columnheaders={['ID', 'Order #', 'Date', '# Products', 'Final Price', 'Options']}/>
+                <StickyHeadTable handlebuttonedit = {''} data={orders} columnheaders={['ID', 'Order #', 'Date', '# Products', 'Final Price', 'Options']}/>
             </div>
             <div className="ViewMyOrders-button-neworder">
                 <BasicButtons text={'New order'} handleClick={handleClickButtonNewOrder}/>

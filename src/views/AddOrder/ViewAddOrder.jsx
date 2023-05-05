@@ -23,6 +23,15 @@ const ViewAddOrder = ({
         getOrders()
     }, [id])
 
+    const getDate = () => {
+        const date = new Date();
+        let currentDay= String(date.getDate()).padStart(2, '0');
+        let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+        let currentYear = date.getFullYear();
+        let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+        return currentDate
+    }
+
     const handleClickButtonNewOrder = () => {
         alert('New Product')
     }
@@ -31,8 +40,8 @@ const ViewAddOrder = ({
         <div className="ViewAddOrders-Container">
             <div className="ViewAddOrders-title">{id != null ? 'Edit Order' : 'Add Order'}</div>
             <div className="ViewAddOrders-div-textfields1">
-                <TextField label={"Order Number"} text={'Order Number'} width={'20ch'} textInput={id}/>
-                <TextField label={"Date"} text={'Date'} width={'15ch'}/>
+                <TextField label={"Order Number"} width={'20ch'} textInput={id}/>
+                <TextField label={"Date"} width={'15ch'} textInput={getDate()}/>
             </div>
             
             <div className="ViewAddOrders-table-contenedor">
