@@ -12,6 +12,8 @@ const ViewAddOrder = ({
 }) => {
     const [orderDetails, setOrdersDetails] = useState([])
     const [{id}, setId] = useState(useParams())
+    const [{ordernumber}, setOrdernumber] = useState(useParams())
+    const [{date}, setDate] = useState(useParams())
 
     useEffect(() => {
         const getOrders = async() => {
@@ -38,15 +40,15 @@ const ViewAddOrder = ({
     }
 
     const handleInputOrderNumber = (event) => {
-        setId(getValueFromEvent(event))
+        setOrdernumber(getValueFromEvent(event))
     }
 
     return(
         <div className="ViewAddOrders-Container">
             <div className="ViewAddOrders-title">{id != null ? 'Edit Order' : 'Add Order'}</div>
             <div className="ViewAddOrders-div-textfields1">
-                <TextField label={"Order Number"} width={'20ch'} textInput={id} InputHandleOnChange={id == null ? handleInputOrderNumber : null} isDisabled={id != null}/>
-                <TextField label={"Date"} width={'15ch'} textInput={getDate()}/>
+                <TextField label={"Order Number"} width={'20ch'} textInput={ordernumber} InputHandleOnChange={id == null ? handleInputOrderNumber : null} isDisabled={id != null}/>
+                <TextField label={"Date"} width={'15ch'} textInput={id == null? getDate() : date} isDisabled={true}/>
             </div>
             
             <div className="ViewAddOrders-table-contenedor">

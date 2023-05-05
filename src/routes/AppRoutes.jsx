@@ -8,7 +8,7 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path="my-orders" element={<ViewMyOrders />}/>
                 <Route path="add-order" element={<ViewAddOrder />} />
-                <Route path="add-order/:id" element={<ViewAddOrder />} />
+                <Route path="add-order/:id/:ordernumber/:date" element={<ViewAddOrder />} />
                 <Route path="/" element={<Navigate to="/my-orders" />}/>
                 
             </Routes>

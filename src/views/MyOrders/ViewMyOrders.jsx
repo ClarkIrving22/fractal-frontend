@@ -25,7 +25,7 @@ const ViewMyOrders = () => {
     }
 
     const handleEditButton = (item) => {
-        navigate(`/add-order/${item.id}`);
+        navigate(`/add-order/${item.id}/${item.ordernumber}/${item.date}`);
     }
 
     return(
