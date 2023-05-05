@@ -1,58 +1,81 @@
-import './styles.css'
+import * as React from 'react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-const Table = ({
-    UsersData
-}) => {
-    const renderRow = (UsersData) => {
-        const birthDate = UsersData.fechanac || '----'
-        const phoneNumber = UsersData.telefono || '----'
-
+export default function StickyHeadTable ({
+    data, columnheaders,
+}){
+    const renderColumnHeaders = (headers = []) => {
         return (
-          <tr key={UsersData.dni} className="tabla-root-tbody-tr">
-            <td className="tabla-root-td">{UsersData.apellidosynombres}</td>
-            <td className="tabla-root-td">{UsersData.dni}</td>
-            <td className="tabla-root-td">{birthDate}</td>
-            <td className="tabla-root-td">{phoneNumber}</td>
-            <td className="tabla-root-td">{UsersData.direccion}</td>
-            <td className="tabla-root-td">
-                {/*<Tooltip title="Editar" placement="top-end" arrow>*/}
-                    <IconButton className="IconButton">
-                        <EditIcon className="Icon" sx={{color: "#FB8C00"}}/>
-                    </IconButton>
-                {/*</Tooltip>*/}
-                {/*<Tooltip title="Eliminar" placement="top-end" arrow>*/}
-                    <IconButton className="IconButton">
-                        <DeleteIcon className="Icon" sx={{color: "#FF5722"}}/>
-                    </IconButton>                    
-                {/*</Tooltip>*/}
-            </td>
-          </tr>
+            <>
+                {headers.map((column) => (
+                    <TableCell key={column}>
+                        {column}
+                    </TableCell>
+                ))}
+            </>
         )
     }
 
-    return(
-        <div id="div-tabla-root" className="div-tabla-root">
-            <table id="tabla-root" className="tabla-root">
-                <thead>
-                    <tr>                            
-                        <th className="tabla-root-th">Apellidos y Nombres</th>
-                        <th className="tabla-root-th">DNI</th>
-                        <th className="tabla-root-th">Fecha Nac.</th>
-                        <th className="tabla-root-th">Teléfono</th>
-                        <th className="tabla-root-th">Dirección</th>
-                        <th className="tabla-root-th">Acciones</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        { UsersData.map(UsersData => renderRow(UsersData)) }
-                    </tbody>
-            </table>
-        </div>
-    )
+    const renderRow = (rowData = {}) => {
+        const keys = Object.keys(rowData)
+        return(
+            <>
+                {keys.map((key) => {
+                    return(
+                        <TableCell key={rowData[key]}>{rowData[key]}</TableCell>
+                    )
+                })}
+                <TableCell>
+                    <IconButton className="IconButton">
+                        <EditIcon className="Icon" sx={{color: "#FB8C00"}}/>
+                    </IconButton>
+                    <IconButton className="IconButton">
+                        <DeleteIcon className="Icon" sx={{color: "#FF5722"}}/>
+                    </IconButton>
+                </TableCell>                
+            </>
+        )
+    }
+    
+    const renderRows = (rowsData) => {
+        return(
+            <>
+                {rowsData.map((rowData) => {
+                    return(
+                        <TableRow key={rowData.id}>
+                            {renderRow(rowData)}
+                        </TableRow>
+                    )
+                })}
+            </>
+        )
+    }
+    
+    return (
+        <Paper sx={{width: '100%', overflow: 'hidden'}}>
+        <TableContainer sx={{ maxHeight: 500 }}>
+            <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+                <TableRow>
+                    {renderColumnHeaders(columnheaders)}
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {renderRows(data)}
+            </TableBody>
+            </Table>
+        </TableContainer>
+        </Paper>
+    );
 }
-
-export default Table
