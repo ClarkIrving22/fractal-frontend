@@ -1,0 +1,14 @@
+.ViewMyOrders-Container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 1.50rem;
+    margin-top: 10px;
+    border: 1px solid red;
+}
