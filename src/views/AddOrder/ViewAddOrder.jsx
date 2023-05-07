@@ -2,9 +2,11 @@ import './styles.css'
 import UsersData from "../../data/users.json"
 import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 import TextField from '../../components/textfield/TextField'
+import axios from 'axios';
 
 const getValueFromEvent = event => event.target.value
 
@@ -35,20 +37,40 @@ const ViewAddOrder = ({
                     setOrdersDetails(details)
                 }
                 getOrders()
+            }
+            else{
+                getCurrentDate()
             }               
     }, [id])
 
-    const getDate = () => {
+    const getCurrentDate = () => {
         const date = new Date();
         let currentDay= String(date.getDate()).padStart(2, '0');
         let currentMonth = String(date.getMonth()+1).padStart(2,"0");
         let currentYear = date.getFullYear();
         let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+        setDate(currentDate)
         return currentDate
     }
 
+    const navigate = useNavigate();
+
     const handleClickButtonNewOrder = () => {
-        alert('New Product')
+        fetch('http://localhost:8080/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ordernumber: ordernumber,
+                date: date
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            navigate(`/add-order/${data.id}`)
+        })
+        .catch(error => {console.error(error)})
     }
 
     const handleInputOrderNumber = (event) => {
@@ -60,7 +82,7 @@ const ViewAddOrder = ({
             <div className="ViewAddOrders-title">{id != null ? 'Edit Order' : 'Add Order'}</div>
             <div className="ViewAddOrders-div-textfields1">
                 <TextField label={"Order Number"} width={'15ch'} textInput={ordernumber} InputHandleOnChange={handleInputOrderNumber}/>
-                <TextField label={"Date"} width={'15ch'} textInput={id == null ? getDate() : date} isDisabled={true}/>
+                <TextField label={"Date"} width={'15ch'} textInput={date} isDisabled={true}/>
                 <TextField label={"Products #"} width={'15ch'} textInput={id == null ? 0 : productsnumber} isDisabled={true}/>
                 <TextField label={"Final Price"} width={'15ch'} textInput={id == null ? 0: finalprice} isDisabled={true}/>
             </div>

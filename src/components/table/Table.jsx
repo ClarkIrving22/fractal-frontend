@@ -34,7 +34,7 @@ export default function StickyHeadTable ({
         )
     }
 
-    const handleRowClick = (event, item) => {
+    const handleEditButtonClick = (event, item) => {
         handleEditButton(item);
     };
 
@@ -48,11 +48,11 @@ export default function StickyHeadTable ({
             <>
                 {keys.map((key) => {
                     return(
-                        <TableCell>{rowData[key]}</TableCell>
+                        <TableCell key={`${rowData.id}.${key}`} >{rowData[key]}</TableCell>
                     )
                 })}
                 <TableCell>
-                    <IconButton className="IconButton" onClick={(event) => handleRowClick(event, rowData)}>
+                    <IconButton className="IconButton" onClick={(event) => handleEditButtonClick(event, rowData)}>
                         <EditIcon className="Icon" sx={{color: "#FB8C00"}}/>
                     </IconButton>
                     <IconButton className="IconButton" onClick={(event) => handleDeleteButtonClick(event, rowData)}>
@@ -70,7 +70,7 @@ export default function StickyHeadTable ({
                 {rowsData.map((rowData) => {
                     deleteKeys(rowData)
                     return(
-                        <TableRow key={rowData.id} >
+                        <TableRow key={rowData.id}>
                             {renderRow((rowData))}
                         </TableRow>
                     )
