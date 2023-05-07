@@ -6,20 +6,19 @@ import { useNavigate } from "react-router-dom";
 import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 import TextField from '../../components/textfield/TextField'
-import axios from 'axios';
 
 const getValueFromEvent = event => event.target.value
 
 const ViewAddOrder = ({
 }) => {
     const [orderDetails, setOrdersDetails] = useState([])
-    const [{id}, setId] = useState(useParams())
+    const {id} = useParams()
     const [ordernumber, setOrderNumber] = useState('')
     const [date, setDate] = useState('')
     const [productsnumber, setProductsNumber] = useState(0)
     const [finalprice, setFinalPrice] = useState(0)
 
-    useEffect(() => {                 
+    useEffect(() => {
             if(id){
                 const getOrderInfo = async() => {
                     const response = await fetch(`http://localhost:8080/api/orders/${id}`)
