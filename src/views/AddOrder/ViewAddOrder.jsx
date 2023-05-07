@@ -20,6 +20,12 @@ const ViewAddOrder = ({
 
     useEffect(() => {
             if(id){
+                const getOrders = async() => {
+                    const response = await fetch(`http://localhost:8080/api/order_details/${id}`)
+                    const details = await response.json()
+                    setOrdersDetails(details)
+                }
+
                 const getOrderInfo = async() => {
                     const response = await fetch(`http://localhost:8080/api/orders/${id}`)
                     const info = await response.json()
@@ -27,20 +33,14 @@ const ViewAddOrder = ({
                     setDate(info.date)
                     setProductsNumber(info.productsnumber)
                     setFinalPrice(info.finalprice)
+                    getOrders()
                 }
-                getOrderInfo()
-
-                const getOrders = async() => {
-                    const response = await fetch(`http://localhost:8080/api/order_details/${id}`)
-                    const details = await response.json()
-                    setOrdersDetails(details)
-                }
-                getOrders()
+                getOrderInfo()               
             }
             else{
-                getCurrentDate()
+                setDate(getCurrentDate())
             }               
-    }, [id])
+    })
 
     const getCurrentDate = () => {
         const date = new Date();
@@ -48,7 +48,6 @@ const ViewAddOrder = ({
         let currentMonth = String(date.getMonth()+1).padStart(2,"0");
         let currentYear = date.getFullYear();
         let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
-        setDate(currentDate)
         return currentDate
     }
 
