@@ -7,6 +7,7 @@ import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 import TextField from '../../components/textfield/TextField'
 import AlertDialog from '../../components/dialog/AlertDialog';
+import BasicModal from '../../components/modal/Modal';
 
 const getValueFromEvent = event => event.target.value
 
@@ -111,7 +112,7 @@ const ViewAddOrder = ({
     }
 
     const handleEditButton = (item) => {
-        navigate(`/add-order/${item.id}`);
+        //navigate(`/add-order/${item.id}`);
     }   
 
     function handleAcceptDeleteModal(){
@@ -154,6 +155,7 @@ const ViewAddOrder = ({
                 <BasicButtons text={'Add Product'} handleClick={handleClickButtonNewOrder} isDisabled={id == null}/>
                 <BasicButtons text={id==null ? 'Create Order' : 'Update order number'} handleClick={id==null ? handleClickButtonNewOrder : handleClickButtonUpdateOrderNumber} isDisabled={btnCreateDisabled}/>
             </div>
+            <BasicModal></BasicModal>
             {isModalOpen && <AlertDialog onClose={handleCloseModal} onDelete={handleAcceptDeleteModal} />}
         </div>
     )
