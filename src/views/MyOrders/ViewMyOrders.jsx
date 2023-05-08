@@ -8,7 +8,7 @@ import AlertDialog from '../../components/dialog/AlertDialog';
 
 const ViewMyOrders = () => {
     const [orders, setOrders] = useState([])
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [idSelectedForDelete, setIdSelectedForDelete] = useState(0)
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const ViewMyOrders = () => {
             setOrders(orders)
         }
         getOrders()
-    }, [isModalOpen])
+    }, [isAlertOpen])
 
     const navigate = useNavigate();
 
@@ -30,20 +30,20 @@ const ViewMyOrders = () => {
         navigate(`/add-order/${item.id}`);
     }   
 
-    function handleAcceptDeleteModal(){
+    function handleAcceptDeleteAlert(){
         fetch(`http://localhost:8080/api/orders/${idSelectedForDelete}`, {
             method: 'DELETE',
         })
-        .then(setIsModalOpen(false))
+        .then(setIsAlertOpen(false))
         .catch(error => {console.error(error)})    
     }
 
-    function handleCloseModal() {
-        setIsModalOpen(false);
+    function handleCloseAlert() {
+        setIsAlertOpen(false);
     }
 
     const handleDeleteButton = (item) => {
-        setIsModalOpen(true)
+        setIsAlertOpen(true)
         setIdSelectedForDelete(item.id)
     }
 
@@ -56,7 +56,7 @@ const ViewMyOrders = () => {
             <div className="ViewMyOrders-button-neworder">
                 <BasicButtons text={'New order'} handleClick={handleClickButtonNewOrder}/>
             </div>
-            {isModalOpen && <AlertDialog onClose={handleCloseModal} onDelete={handleAcceptDeleteModal} />}
+            {isAlertOpen && <AlertDialog onClose={handleCloseAlert} onDelete={handleAcceptDeleteAlert} />}
         </div>
     )
 }

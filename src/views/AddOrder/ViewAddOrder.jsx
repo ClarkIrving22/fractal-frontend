@@ -7,7 +7,7 @@ import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 import TextField from '../../components/textfield/TextField'
 import AlertDialog from '../../components/dialog/AlertDialog';
-import BasicModal from '../../components/modal/Modal';
+
 
 const getValueFromEvent = event => event.target.value
 
@@ -20,7 +20,7 @@ const ViewAddOrder = ({
     const [productsnumber, setProductsNumber] = useState(0)
     const [finalprice, setFinalPrice] = useState(0)
     const [btnCreateDisabled, setbtnCreateDisabled] = useState(false)
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [productIdSelectedForDelete, setProductIdSelectedForDelete] = useState(0)
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const ViewAddOrder = ({
             else{
                 setDate(getCurrentDate())
             }               
-    },[isModalOpen])
+    },[isAlertOpen])
 
     const getCurrentDate = () => {
         const date = new Date();
@@ -115,20 +115,20 @@ const ViewAddOrder = ({
         //navigate(`/add-order/${item.id}`);
     }   
 
-    function handleAcceptDeleteModal(){
+    function handleAcceptDeleteAlert(){
         fetch(`http://localhost:8080/api/order_details/${id}/${productIdSelectedForDelete}`, {
             method: 'DELETE',
         })
-        .then(setIsModalOpen(false), navigate(`/add-order/${id}`))
+        .then(setIsAlertOpen(false), navigate(`/add-order/${id}`))
         .catch(error => {console.error(error)})    
     }
 
-    function handleCloseModal() {
-        setIsModalOpen(false);
+    function handleCloseAlert() {
+        setIsAlertOpen(false);
     }
 
     const handleDeleteButton = (item) => {
-        setIsModalOpen(true)
+        setIsAlertOpen(true)
         setProductIdSelectedForDelete(item.product_id)
     }
 
@@ -155,8 +155,7 @@ const ViewAddOrder = ({
                 <BasicButtons text={'Add Product'} handleClick={handleClickButtonNewOrder} isDisabled={id == null}/>
                 <BasicButtons text={id==null ? 'Create Order' : 'Update order number'} handleClick={id==null ? handleClickButtonNewOrder : handleClickButtonUpdateOrderNumber} isDisabled={btnCreateDisabled}/>
             </div>
-            <BasicModal></BasicModal>
-            {isModalOpen && <AlertDialog onClose={handleCloseModal} onDelete={handleAcceptDeleteModal} />}
+            {isAlertOpen && <AlertDialog onClose={handleCloseAlert} onDelete={handleAcceptDeleteAlert} />}
         </div>
     )
 }
