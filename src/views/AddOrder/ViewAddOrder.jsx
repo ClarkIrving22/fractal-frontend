@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import StickyHeadTable from '../../components/table/Table'
 import BasicButtons from '../../components/button/Button'
 import TextField from '../../components/textfield/TextField'
+import AlertDialog from '../../components/dialog/AlertDialog';
 
 const getValueFromEvent = event => event.target.value
 
@@ -17,9 +18,13 @@ const ViewAddOrder = ({
     const [date, setDate] = useState('')
     const [productsnumber, setProductsNumber] = useState(0)
     const [finalprice, setFinalPrice] = useState(0)
+    const [btnCreateDisabled, setbtnCreateDisabled] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [productIdSelectedForDelete, setProductIdSelectedForDelete] = useState(0)
 
     useEffect(() => {
             if(id){
+                setbtnCreateDisabled(true)
                 const getOrders = async() => {
                     const response = await fetch(`http://localhost:8080/api/order_details/${id}`)
                     const details = await response.json()
@@ -35,12 +40,12 @@ const ViewAddOrder = ({
                     setFinalPrice(info.finalprice)
                     getOrders()
                 }
-                getOrderInfo()               
+                getOrderInfo()
             }
             else{
                 setDate(getCurrentDate())
             }               
-    })
+    },[isModalOpen])
 
     const getCurrentDate = () => {
         const date = new Date();
@@ -54,25 +59,76 @@ const ViewAddOrder = ({
     const navigate = useNavigate();
 
     const handleClickButtonNewOrder = () => {
-        fetch('http://localhost:8080/api/orders', {
-            method: 'POST',
+            if(ordernumber.trim() !== ''){
+                fetch('http://localhost:8080/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ordernumber: ordernumber,
+                    date: date
+                })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    navigate(`/add-order/${data.id}`)
+                    setbtnCreateDisabled(true)
+                })
+                .catch(error => {console.error(error)})
+            }
+            else{
+                alert("Please fill Order Number field first")
+            }
+    }
+
+    const handleClickButtonUpdateOrderNumber = () => {
+        if(ordernumber.trim() !== ''){
+            fetch(`http://localhost:8080/api/orders/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                ordernumber: ordernumber,
-                date: date
+                ordernumber: ordernumber
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            navigate(`/add-order/${data.id}`)
-        })
-        .catch(error => {console.error(error)})
+            })
+            .then(response => response.json())
+            .then(data => {
+                navigate(`/add-order/${data.id}`)
+                setbtnCreateDisabled(true)
+            })
+            .catch(error => {console.error(error)})
+        }
+        else{
+            alert("Please fill Order Number field first")
+        }
     }
 
     const handleInputOrderNumber = (event) => {
         setOrderNumber(getValueFromEvent(event))
+        setbtnCreateDisabled(false)
+    }
+
+    const handleEditButton = (item) => {
+        navigate(`/add-order/${item.id}`);
+    }   
+
+    function handleAcceptDeleteModal(){
+        fetch(`http://localhost:8080/api/order_details/${id}/${productIdSelectedForDelete}`, {
+            method: 'DELETE',
+        })
+        .then(setIsModalOpen(false), navigate(`/add-order/${id}`))
+        .catch(error => {console.error(error)})    
+    }
+
+    function handleCloseModal() {
+        setIsModalOpen(false);
+    }
+
+    const handleDeleteButton = (item) => {
+        setIsModalOpen(true)
+        setProductIdSelectedForDelete(item.product_id)
     }
 
     return(
@@ -90,12 +146,15 @@ const ViewAddOrder = ({
                     data={orderDetails}
                     columnheaders={['Product ID', 'Product Name', 'Unit Price', 'Quantity', 'Total Price', 'Options']}
                     keysToDelete={['id', 'order_id']}
+                    handleDeleteButton={handleDeleteButton}
+                    handleEditButton={handleEditButton}
                 />
             </div>
             <div className="ViewAddOrders-button-neworder">
-                <BasicButtons text={'Add Product'} handleClick={handleClickButtonNewOrder} isDisabled={id==null}/>
-                <BasicButtons text={'Save Order'} handleClick={handleClickButtonNewOrder}/>
-            </div>            
+                <BasicButtons text={'Add Product'} handleClick={handleClickButtonNewOrder} isDisabled={id == null}/>
+                <BasicButtons text={id==null ? 'Create Order' : 'Update order number'} handleClick={id==null ? handleClickButtonNewOrder : handleClickButtonUpdateOrderNumber} isDisabled={btnCreateDisabled}/>
+            </div>
+            {isModalOpen && <AlertDialog onClose={handleCloseModal} onDelete={handleAcceptDeleteModal} />}
         </div>
     )
 }
