@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react'
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField'
+import Autocomplete from '@mui/material/Autocomplete'
 
-export default function ComboBox() {
+export default function ComboBox({
+  values,
+}) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
 
@@ -13,9 +14,9 @@ export default function ComboBox() {
         size="small"
         disablePortal
         id="combo-box-demo"
-        options={top100Films}
+        options={values}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Movie" />}
+        renderInput={(params) => <TextField {...params} label="Product" />}
         value={value}
         onChange={(event, newValue) => {
           console.log(newValue)
