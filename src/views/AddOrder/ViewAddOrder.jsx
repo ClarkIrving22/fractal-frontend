@@ -47,7 +47,7 @@ const ViewAddOrder = ({
             else{
                 setDate(getCurrentDate())
             }               
-    },[isAlertOpen])
+    },[isAlertOpen, isModalOpen])
 
     const getCurrentDate = () => {
         const date = new Date();
@@ -107,8 +107,8 @@ const ViewAddOrder = ({
         }
     }
 
-    const handleInputOrderNumber = (event) => {
-        setOrderNumber(getValueFromEvent(event))
+    const handleInputOrderNumber = (value) => {
+        setOrderNumber(value)
         setbtnCreateDisabled(false)
     }
 
@@ -149,11 +149,15 @@ const ViewAddOrder = ({
         setIsModalOpen(true)
     }
 
+    const handleBackButton = () => {
+        navigate(`/my-orders`)
+    }
+
     return(
         <div className="ViewAddOrders-Container">
             <div className="ViewAddOrders-title">{id != null ? 'Edit Order' : 'Add Order'}</div>
             <div className="ViewAddOrders-div-textfields1">
-                <TextField label={"Order Number"} width={'15ch'} textInput={ordernumber} InputHandleOnChange={handleInputOrderNumber} type='text'/>
+                <TextField label={"Order Number"} width={'15ch'} textInput={ordernumber} InputHandleOnChange={handleInputOrderNumber}/>
                 <TextField label={"Date"} width={'15ch'} textInput={date} isDisabled={true}/>
                 <TextField label={"Products #"} width={'15ch'} textInput={id == null ? 0 : productsnumber} isDisabled={true}/>
                 <TextField label={"Final Price"} width={'15ch'} textInput={id == null ? 0: finalprice} isDisabled={true}/>
@@ -169,11 +173,12 @@ const ViewAddOrder = ({
                 />
             </div>
             <div className="ViewAddOrders-button-neworder">
+                <BasicButtons text={'Back to My Orders'} handleClick={handleBackButton}/>
                 <BasicButtons text={'Add Product'} handleClick={handleOpenModal} isDisabled={id == null}/>
                 <BasicButtons text={id==null ? 'Create Order' : 'Update order number'} handleClick={id==null ? handleClickButtonNewOrder : handleClickButtonUpdateOrderNumber} isDisabled={btnCreateDisabled}/>
             </div>
             {isAlertOpen && <AlertDialog onClose={handleCloseAlert} onDelete={handleAcceptDeleteAlert} />}
-            {isModalOpen && <BasicModal onClose={handleCloseModal}/>}
+            {isModalOpen && <BasicModal onClose={handleCloseModal} order_id={id}/>}
         </div>
     )
 }

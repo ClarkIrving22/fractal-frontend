@@ -26,7 +26,9 @@ export default function BasicTextFields({
             id="outlined-size-small"
             size="small"
             value={textInput}
-            onChange={InputHandleOnChange}
+            onChange={(event) => {
+                InputHandleOnChange(event.target.value);
+            }}
             type={type}
             inputProps={type==='number' ? { min: 1} : {}}
         />

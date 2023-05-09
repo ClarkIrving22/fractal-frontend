@@ -5,9 +5,11 @@ import Autocomplete from '@mui/material/Autocomplete'
 
 export default function ComboBox({
   values,
+  value,
+  onChange,
 }) {
-  const [value, setValue] = useState(null);
-  const [inputValue, setInputValue] = useState('');
+  //const [value, setValue] = useState(null);
+  //const [inputValue, setInputValue] = useState('');
 
   return (
       <Autocomplete
@@ -19,14 +21,12 @@ export default function ComboBox({
         renderInput={(params) => <TextField {...params} label="Product" />}
         value={value}
         onChange={(event, newValue) => {
-          console.log(newValue)
-          setValue(newValue);
+          onChange(newValue);
         }}
-        inputValue={inputValue}
+        /*inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
-          console.log(newInputValue)
           setInputValue(newInputValue);
-        }}
+        }}*/
       />
   );
 }
