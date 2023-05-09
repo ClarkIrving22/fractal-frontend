@@ -9,8 +9,6 @@ import TextField from '../../components/textfield/TextField'
 import AlertDialog from '../../components/dialog/AlertDialog';
 import BasicModal from '../../components/modal/Modal';
 
-const getValueFromEvent = event => event.target.value
-
 const ViewAddOrder = ({
 }) => {
     const [orderDetails, setOrdersDetails] = useState([])
@@ -112,8 +110,12 @@ const ViewAddOrder = ({
         setbtnCreateDisabled(false)
     }
 
+    const [isForEditing, setIsForEditing] = useState(false)
+    const [orderSelectedForEdit, setOrderSelectedForEdit] = useState(null)
     const handleEditButton = (item) => {
-        //navigate(`/add-order/${item.id}`);
+        setOrderSelectedForEdit(item)
+        setIsForEditing(true)
+        setIsModalOpen(true)
     }   
 
     function handleAcceptDeleteAlert(){
@@ -133,19 +135,12 @@ const ViewAddOrder = ({
         setProductIdSelectedForDelete(item.product_id)
     }
 
-    function handleAddProductModal(){
-        fetch(`http://localhost:8080/api/order_details/${id}/${productIdSelectedForDelete}`, {
-            method: 'DELETE',
-        })
-        .then(setIsModalOpen(false), navigate(`/add-order/${id}`))
-        .catch(error => {console.error(error)})    
-    }
-
     function handleCloseModal() {
         setIsModalOpen(false);
     }
 
     const handleOpenModal = () => {
+        setIsForEditing(false)
         setIsModalOpen(true)
     }
 
@@ -178,7 +173,7 @@ const ViewAddOrder = ({
                 <BasicButtons text={id==null ? 'Create Order' : 'Update order number'} handleClick={id==null ? handleClickButtonNewOrder : handleClickButtonUpdateOrderNumber} isDisabled={btnCreateDisabled}/>
             </div>
             {isAlertOpen && <AlertDialog onClose={handleCloseAlert} onDelete={handleAcceptDeleteAlert} />}
-            {isModalOpen && <BasicModal onClose={handleCloseModal} order_id={id}/>}
+            {isModalOpen && <BasicModal onClose={handleCloseModal} order_id={id} isForEditing={isForEditing} orderSelectedForEdit={orderSelectedForEdit} />}
         </div>
     )
 }

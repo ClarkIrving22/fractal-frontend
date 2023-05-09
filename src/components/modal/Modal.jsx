@@ -20,6 +20,8 @@ const style = {
 export default function BasicModal({
   onClose,
   order_id,
+  isForEditing,
+  orderSelectedForEdit,
 }) {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
@@ -34,7 +36,7 @@ export default function BasicModal({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddOrderDetail handleCloseModal={onClose} order_id={order_id} />
+          <AddOrderDetail handleCloseModal={onClose} order_id={order_id} isForEditing={isForEditing} orderSelectedForEdit={orderSelectedForEdit} />
         </Box>
       </Modal>
     </div>

@@ -7,6 +7,7 @@ export default function ComboBox({
   values,
   value,
   onChange,
+  isDisabled,
 }) {
   //const [value, setValue] = useState(null);
   //const [inputValue, setInputValue] = useState('');
@@ -23,6 +24,7 @@ export default function ComboBox({
         onChange={(event, newValue) => {
           onChange(newValue);
         }}
+        disabled={isDisabled}
         /*inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
