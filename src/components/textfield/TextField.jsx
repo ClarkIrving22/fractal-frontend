@@ -8,6 +8,7 @@ export default function BasicTextFields({
     InputHandleOnChange,
     width,
     isDisabled,
+    type,
 }) {
   return (
     <Box
@@ -26,6 +27,8 @@ export default function BasicTextFields({
             size="small"
             value={textInput}
             onChange={InputHandleOnChange}
+            type={type}
+            inputProps={type==='number' ? { min: 1} : {}}
         />
     </Box>
   );
